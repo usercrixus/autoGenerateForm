@@ -6,17 +6,17 @@ import FormJson from "../../../../dataStructure";
 import "./formGenerator.css";
 
 export default class FormGenerator
-  extends React.Component<{}, { Pagination: number, FormComponents: any; }>
+  extends React.Component<{}, { Pagination: number, FormComponents: typeof FormJson, Data: any, listElement: any[][], name: string; }>
   implements ProviderInterface {
-
+  bufferData: any[][] = [];
   constructor(props: any) {
     super(props);
-    this.state = { Pagination: 0, FormComponents: FormJson };
+    this.state = { Pagination: 0, FormComponents: FormJson, Data: {}, listElement: [[]], name: "alo" };
   }
 
   componentDidMount() {
-
-    this.setState({ FormComponents: FormJson });
+    this.generateComponent();
+    this.setState({ FormComponents: this.state.FormComponents });
     BasicProvider.subscribe(this);
   }
   componentWillUnmount() {
@@ -27,12 +27,16 @@ export default class FormGenerator
   }
 
   generateComponent() {
-    FormJson.forEach((branch: any) => {
-      branch.component.push((<h1 key={branch.branchName}>{branch.sectionName}</h1>));
+    let page = 0;
+    this.state.FormComponents.forEach((branch: any) => {
+      this.bufferData.push([]);
+      this.bufferData[page].push((<h1 key={branch.branchName}>{branch.sectionName}</h1>));
       branch.formStructure.forEach((formStructure: any) => {
-        formStructure.component.push(this.dispatchInputType(formStructure));
+        this.bufferData[page].push(this.dispatchInputType(formStructure));
       });
+      page++;
     });
+    this.setState({ listElement: this.bufferData });
   }
 
   dispatchInputType(formStructure: any): any {
@@ -52,17 +56,20 @@ export default class FormGenerator
   }
 
   generateTextField(formStructure: any): any {
+    console.log("okok");
+    this.state.Data[formStructure.name] = "";
     return (
       <div className="column formElement" key={formStructure.name}>
         <h2>{formStructure.question}</h2>
         <div>{formStructure.description}</div>
-        <input type="text" value={formStructure.value} name={formStructure.name} onChange={(e) => { formStructure.value = e.target.value; this.setState({ FormComponents: this.state.FormComponents }); }}></input>
+        <input type="text" value={this.state.name} name={formStructure.name} onChange={this.eventTextField.bind(this)}></input>
       </div>
     );
   }
 
-  eventTextField(e: React.ChangeEvent<HTMLInputElement>, key: string) {
-
+  eventTextField(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ name: e.target.value });
+    console.log(e.target.value);
   }
 
   generateMultiChoice(formStructure: any): any {
@@ -130,15 +137,12 @@ export default class FormGenerator
 
 
   render() {
-    this.generateComponent();
     return (
       <div className="column">
         <>
-          {this.state.FormComponents[this.state.Pagination].component}
+          {this.state.listElement[this.state.Pagination]}
         </>
-        <>
-          {this.state.FormComponents[this.state.Pagination].formStructure.map((element: any) => element.component)}
-        </>
+        {this.generateTextField(this.state.FormComponents[0].formStructure[0])}
         <div>
           <button disabled={this.state.Pagination === 0} onClick={this.previousPage.bind(this)}>Previous</button>
           <button onClick={this.nextPage.bind(this)}>Next</button>
@@ -147,4 +151,3 @@ export default class FormGenerator
     );
   }
 }
-/*        */
