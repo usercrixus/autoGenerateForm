@@ -1,0 +1,76 @@
+[
+    {
+        "branchName": "start",
+        "sectionName": "Part one",
+        "formStructure" :[
+            {
+                "question": "First Name",
+                "description": "What's your first name", 
+                "inputType": "textField",
+                "isBranch": false
+            },
+            {
+                "question": "Last Name",
+                "description": "What's your last name",
+                "inputType": "textField",
+                "isBranch": false
+            },
+            {
+                "question": "nationality",
+                "description": "What's your nationality",
+                "inputType": "multiChoice",
+                "multiChoice": ["French", "English"],
+                "isBranch": true,
+                "include": "french"
+            }
+        ],
+        "next": "end"
+    },
+    {
+        "branchName": "french",
+        "sectionName": "French",
+        "formStructure" :[
+            {
+                "question": "Auteur préféré",
+                "description": "Indiquez quel est votre auteur préféré", 
+                "inputType": "multiChoice",
+                "multiChoice": ["Hugo", "Voltaire"],
+                "isBranch": false
+            }
+        ],
+        "next": null
+    },
+    {
+        "branchName": "english",
+        "sectionName": "English",
+        "formStructure" :[
+            {
+                "question": "Favorite autor",
+                "description": "Enter your favorite autor", 
+                "inputType": "multiChoice",
+                "multiChoice": ["Shakespeare", "Orwell"],
+                "isBranch": false
+            }
+        ],
+        "next": null
+    },
+    {
+        "branchName": "end",
+        "sectionName": "Last questions",
+        "formStructure" :[
+            {
+                "question": "Comment",
+                "description": "Have you some comment to do", 
+                "inputType": "textArea",
+                "isBranch": false
+            },
+            {
+                "question": "Validation",
+                "description": "Copie this number and valid : 59422479", 
+                "inputType": "textField",
+                "isBranch": false
+            }
+        ],
+        "next": null
+    }
+]

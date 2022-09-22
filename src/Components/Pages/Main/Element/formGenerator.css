@@ -1,0 +1,13 @@
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.formElement{
+    margin: 10px;
+}
+
+h1, h2{
+    padding: 0px;
+    margin: 0px;
+}
