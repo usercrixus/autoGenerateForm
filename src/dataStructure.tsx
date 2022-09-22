@@ -1,13 +1,13 @@
-[
+var dataStructure: any = [
     {
         "branchName": "start",
         "isDisplayed": true,
         "sectionName": "Part one",
-        "formStructure" :[
+        "formStructure": [
             {
                 "name": "firstName",
                 "question": "First Name",
-                "description": "What's your first name", 
+                "description": "What's your first name",
                 "inputType": "textField",
                 "isBranch": false,
                 "component": [],
@@ -40,11 +40,11 @@
         "branchName": "french",
         "isDisplayed": false,
         "sectionName": "French",
-        "formStructure" :[
+        "formStructure": [
             {
                 "name": "favoriteAuthor",
                 "question": "Auteur préféré",
-                "description": "Indiquez quel est votre auteur préféré", 
+                "description": "Indiquez quel est votre auteur préféré",
                 "inputType": "multiChoice",
                 "multiChoice": ["Hugo", "Voltaire"],
                 "isBranch": false,
@@ -59,11 +59,11 @@
         "branchName": "english",
         "isDisplayed": false,
         "sectionName": "English",
-        "formStructure" :[
+        "formStructure": [
             {
                 "name": "favoriteAuthor",
                 "question": "Favorite autor",
-                "description": "Enter your favorite autor", 
+                "description": "Enter your favorite autor",
                 "inputType": "multiChoice",
                 "multiChoice": ["Shakespeare", "Orwell"],
                 "isBranch": false,
@@ -78,11 +78,11 @@
         "branchName": "end",
         "isDisplayed": true,
         "sectionName": "Last questions",
-        "formStructure" :[
+        "formStructure": [
             {
                 "name": "comment",
                 "question": "Comment",
-                "description": "Have you some comment to do", 
+                "description": "Have you some comment to do",
                 "inputType": "textField",
                 "isBranch": false,
                 "component": [],
@@ -91,7 +91,7 @@
             {
                 "name": "validation",
                 "question": "Validation",
-                "description": "Copie this number and valid : 59422479", 
+                "description": "Copie this number and valid : 59422479",
                 "inputType": "textField",
                 "isBranch": false,
                 "component": [],
@@ -101,4 +101,6 @@
         "component": [],
         "next": null
     }
-]
+];
+
+export default dataStructure;

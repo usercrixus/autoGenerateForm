@@ -2,7 +2,7 @@ import React, { Component, Profiler, ReactElement } from "react";
 import "../../../../CSS/utilities.css";
 import { ProviderInterface } from "../../../../Providers/ProviderInterface";
 import BasicProvider from "../../../../Providers/BasicProvider";
-import FormJson from "../../../../dataStructure.json";
+import FormJson from "../../../../dataStructure";
 import "./formGenerator.css";
 
 export default class FormGenerator
@@ -15,9 +15,8 @@ export default class FormGenerator
   }
 
   componentDidMount() {
-    console.log(this.state.FormComponents);
-    this.generateComponent();
-    this.setState({ FormComponents: this.state.FormComponents });
+
+    this.setState({ FormComponents: FormJson });
     BasicProvider.subscribe(this);
   }
   componentWillUnmount() {
@@ -28,7 +27,7 @@ export default class FormGenerator
   }
 
   generateComponent() {
-    this.state.FormComponents.forEach((branch: any) => {
+    FormJson.forEach((branch: any) => {
       branch.component.push((<h1 key={branch.branchName}>{branch.sectionName}</h1>));
       branch.formStructure.forEach((formStructure: any) => {
         formStructure.component.push(this.dispatchInputType(formStructure));
@@ -111,7 +110,7 @@ export default class FormGenerator
 
   getSectionByName(branchName: string) {
     let buffer: any;
-    this.state.FormComponents.forEach((element: any) => {
+    FormJson.forEach((element: any) => {
       if (element.branchName === branchName) {
         buffer = element;
         return;
@@ -131,6 +130,7 @@ export default class FormGenerator
 
 
   render() {
+    this.generateComponent();
     return (
       <div className="column">
         <>
@@ -147,3 +147,4 @@ export default class FormGenerator
     );
   }
 }
+/*        */
