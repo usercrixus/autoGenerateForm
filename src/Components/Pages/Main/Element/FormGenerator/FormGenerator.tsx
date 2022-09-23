@@ -1,8 +1,8 @@
 import React, { Component, Profiler, ReactElement } from "react";
-import "../../../../CSS/utilities.css";
-import { ProviderInterface } from "../../../../Providers/ProviderInterface";
-import BasicProvider from "../../../../Providers/BasicProvider";
-import FormJson from "../../../../dataStructure";
+
+import { ProviderInterface } from "../../../../../Providers/ProviderInterface";
+import BasicProvider from "../../../../../Providers/BasicProvider";
+import FormJson from "../../../../../dataStructure";
 import "./formGenerator.css";
 
 export default class FormGenerator
@@ -15,6 +15,8 @@ export default class FormGenerator
   >
   implements ProviderInterface
 {
+  sectionsName: string[] = [];
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -24,11 +26,11 @@ export default class FormGenerator
   }
 
   componentDidMount() {
-    BasicProvider.subscribe(this);
+    this.generateSectionTab();
+    BasicProvider.setSections(this.sectionsName);
+    BasicProvider.setSectionsRank(this.state.Pagination);
   }
-  componentWillUnmount() {
-    BasicProvider.unsubscribe(this);
-  }
+  componentWillUnmount() {}
   rerender() {
     this.forceUpdate();
   }
@@ -150,8 +152,6 @@ export default class FormGenerator
     value: string,
     index: number
   ) {
-    console.log(field.value);
-
     for (let i = 0; i < field.value.length; i++) {
       if (i !== index) {
         field.value[i] = false;
@@ -173,8 +173,18 @@ export default class FormGenerator
         });
       });
     }
-
+    this.generateSectionTab();
+    BasicProvider.setSections(this.sectionsName);
     this.setState({ dataStructure: this.state.dataStructure });
+  }
+
+  generateSectionTab() {
+    this.sectionsName = [];
+    this.state.dataStructure.forEach((element: any) => {
+      if (element.isDisplayed) {
+        this.sectionsName.push(element.sectionName);
+      }
+    });
   }
 
   getSectionByName(branchName: string) {
@@ -189,18 +199,20 @@ export default class FormGenerator
   }
 
   nextPage() {
+    BasicProvider.setSectionsRank(this.state.Pagination + 1);
     this.setState({ Pagination: this.state.Pagination + 1 });
   }
 
   previousPage() {
+    BasicProvider.setSectionsRank(this.state.Pagination - 1);
     this.setState({ Pagination: this.state.Pagination - 1 });
   }
 
   render() {
     let components = this.generateComponent();
     return (
-      <div className="column">
-        <div>
+      <div className="col-9">
+        <div className="container">
           {components[this.state.Pagination]}
           <button
             disabled={this.state.Pagination === 0}
@@ -208,7 +220,12 @@ export default class FormGenerator
           >
             Previous
           </button>
-          <button onClick={this.nextPage.bind(this)}>Next</button>
+          <button
+            disabled={this.sectionsName.length - 1 === this.state.Pagination}
+            onClick={this.nextPage.bind(this)}
+          >
+            Next
+          </button>
         </div>
       </div>
     );

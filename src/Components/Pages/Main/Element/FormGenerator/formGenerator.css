@@ -1,0 +1,13 @@
+.formElement{
+    margin: 10px;
+}
+
+.form{
+    width: 500px;
+}
+
+.main-section{
+    padding-top: 50px;
+    color: aliceblue;
+    background-color: rgb(0, 0, 0);
+}

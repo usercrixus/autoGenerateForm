@@ -1,0 +1,11 @@
+section.left{
+    padding: 10px;
+    padding-top: 50px;
+    background-color: orange;
+    height: 100%;
+    width: 300px;
+}
+
+.selected{
+    color: green
+}

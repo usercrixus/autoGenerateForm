@@ -1,5 +1,5 @@
 import React, { Profiler } from "react";
-import "../../CSS/utilities.css";
+
 import ProviderInterface from "../../Providers/BasicProvider";
 import BasicProvider from "../../Providers/BasicProvider";
 
@@ -36,7 +36,7 @@ export default class HelloWorld
   render() {
     return (
       <Profiler id="helloworld" onRender={this.onRenderCallback}>
-        <span>HELLO WORLD {BasicProvider.clock}</span>
+        <span>HELLO WORLD</span>
       </Profiler>
     );
   }

@@ -11,10 +11,38 @@ body{
     height: 100%;
 }
 
-.fullCenter {
+.row {
     display: flex;
-    align-items: center;
+    flex-direction: row;
+}
+
+.row-center {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
+}
+
+.column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fullsize{
     height: 100%;
     width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+h1,h2 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.grow{
+    flex-grow: 1;
 }
