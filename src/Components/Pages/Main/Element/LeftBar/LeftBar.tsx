@@ -24,7 +24,6 @@ export default class FormGenerator
   render() {
     return (
       <div className="left-section bg-white">
-        <h1>section:</h1>
         <ul>
           {BasicProvider.sections.map((element, index: number) => {
             return (

@@ -2,6 +2,7 @@ import FormGenerator from "./Element/FormGenerator/FormGenerator";
 import LeftBar from "./Element/LeftBar/LeftBar";
 import ProgressBar from "./Element/ProgressBar/ProgressBar";
 
+
 export default function Main() {
   return (
     <div>
