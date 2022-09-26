@@ -1,9 +1,13 @@
-import React, { Component, Profiler, ReactElement } from "react";
+import React from "react";
 
 import { ProviderInterface } from "../../../../../Providers/ProviderInterface";
 import BasicProvider from "../../../../../Providers/BasicProvider";
 import FormJson from "../../../../../dataStructure";
 import "./formGenerator.css";
+import Radio from "./Element/Radio/Radio";
+import TextField from "./Element/TextField/TextField";
+import MultiChoice from "./Element/MultiChoice/MultiChoice";
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 export default class FormGenerator
   extends React.Component<
@@ -13,15 +17,14 @@ export default class FormGenerator
       dataStructure: typeof FormJson;
     }
   >
-  implements ProviderInterface
-{
+  implements ProviderInterface {
   sectionsName: string[] = [];
 
   constructor(props: any) {
     super(props);
     this.state = {
       Pagination: 0,
-      dataStructure: JSON.parse(JSON.stringify(FormJson)),
+      dataStructure: FormJson,
     };
   }
 
@@ -30,7 +33,7 @@ export default class FormGenerator
     BasicProvider.setSections(this.sectionsName);
     BasicProvider.setSectionsRank(this.state.Pagination);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() { }
   rerender() {
     this.forceUpdate();
   }
@@ -42,7 +45,7 @@ export default class FormGenerator
       if (branch.isDisplayed) {
         components.push([]);
         components[page].push(
-          <h1 key={branch.branchName}>{branch.sectionName}</h1>
+          <h1 className="text-center" key={branch.branchName}>{branch.sectionName}</h1>
         );
         branch.formStructure.forEach((formStructure: any) => {
           components[page].push(this.dispatchInputType(formStructure));
@@ -56,126 +59,31 @@ export default class FormGenerator
   dispatchInputType(formStructure: any): any {
     switch (formStructure.inputType) {
       case "textField":
-        return this.generateTextField(formStructure);
+        return <TextField
+          dataStructure={this.state.dataStructure}
+          formStructure={formStructure}
+          setParenState={this.setState.bind(this)}
+        ></TextField>;
         break;
 
       case "multiChoice":
-        return this.generateMultiChoice(formStructure);
+        return <MultiChoice
+          formStructure={formStructure}
+          dataStructure={this.state.dataStructure}
+          generateSectionTab={this.generateSectionTab.bind(this)}
+          setParenState={this.setState.bind(this)}
+        ></MultiChoice>;
         break;
 
       default:
-        return this.generateRadio(formStructure);
+        return (<Radio
+          formStructure={formStructure}
+          dataStructure={this.state.dataStructure}
+          generateSectionTab={this.generateSectionTab.bind(this)}
+          setParenState={this.setState.bind(this)}
+        ></Radio>);
         break;
     }
-  }
-
-  generateTextField(formStructure: any): any {
-    return (
-      <div className="column formElement" key={formStructure.name}>
-        <h2>{formStructure.question}</h2>
-        <div>{formStructure.description}</div>
-        <input
-          type="text"
-          value={formStructure.value}
-          name={formStructure.name}
-          onChange={(e) => this.eventTextField(e, formStructure)}
-        ></input>
-      </div>
-    );
-  }
-
-  eventTextField(e: React.ChangeEvent<HTMLInputElement>, field: any) {
-    field.value = e.target.value;
-    this.setState({ dataStructure: this.state.dataStructure });
-  }
-
-  generateMultiChoice(formStructure: any): any {
-    return (
-      <div className="column formElement" key={formStructure.name}>
-        <h2>{formStructure.question}</h2>
-        <div>{formStructure.description}</div>
-        {formStructure.multiChoice.map((element: string, index: number) => {
-          return (
-            <div key={element}>
-              <input
-                type="checkbox"
-                name={formStructure.question}
-                value={formStructure.value}
-                checked={formStructure.value[index]}
-                onChange={(e) => this.eventMultiChoice(e, formStructure, index)}
-              />
-              <label htmlFor={element}>{element}</label>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
-  eventMultiChoice(
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: any,
-    index: number
-  ) {
-    field.value[index] = e.target.checked;
-    this.setState({ dataStructure: this.state.dataStructure });
-  }
-
-  generateRadio(formStructure: any): any {
-    return (
-      <div className="column formElement" key={formStructure.name}>
-        <h2>{formStructure.question}</h2>
-        <div>{formStructure.description}</div>
-        {formStructure.radio.map((element: string, index: number) => {
-          return (
-            <div key={element}>
-              <input
-                type="radio"
-                name={formStructure.question}
-                value={element}
-                checked={formStructure.value[index]}
-                onChange={(e) =>
-                  this.eventRadio(e, formStructure, element, index)
-                }
-              />
-              <label htmlFor={element}>{element}</label>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
-  eventRadio(
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: any,
-    value: string,
-    index: number
-  ) {
-    for (let i = 0; i < field.value.length; i++) {
-      if (i !== index) {
-        field.value[i] = false;
-      } else {
-        field.value[i] = true;
-      }
-    }
-
-    if (field.isBranch) {
-      field.radio.forEach((radioValue: any) => {
-        this.state.dataStructure.forEach((branch: any) => {
-          if (branch.branchName === radioValue) {
-            if (radioValue === value) {
-              branch.isDisplayed = true;
-            } else {
-              branch.isDisplayed = false;
-            }
-          }
-        });
-      });
-    }
-    this.generateSectionTab();
-    BasicProvider.setSections(this.sectionsName);
-    this.setState({ dataStructure: this.state.dataStructure });
   }
 
   generateSectionTab() {
@@ -185,17 +93,7 @@ export default class FormGenerator
         this.sectionsName.push(element.sectionName);
       }
     });
-  }
-
-  getSectionByName(branchName: string) {
-    let buffer: any;
-    FormJson.forEach((element: any) => {
-      if (element.branchName === branchName) {
-        buffer = element;
-        return;
-      }
-    });
-    return buffer;
+    BasicProvider.setSections(this.sectionsName);
   }
 
   nextPage() {
@@ -211,23 +109,29 @@ export default class FormGenerator
   render() {
     let components = this.generateComponent();
     return (
-      <div className="col-9">
-        <div className="container">
-          {components[this.state.Pagination]}
+      <div className="container-fluid main-section">
+        {components[this.state.Pagination]}
+
+        <div className="d-flex justify-content-center p-4">
           <button
+            className="btn btn-primary"
             disabled={this.state.Pagination === 0}
             onClick={this.previousPage.bind(this)}
+            style={{ marginRight: "10px" }}
           >
             Previous
           </button>
           <button
+            className="btn btn-primary"
             disabled={this.sectionsName.length - 1 === this.state.Pagination}
             onClick={this.nextPage.bind(this)}
           >
             Next
           </button>
         </div>
+
       </div>
+
     );
   }
 }

@@ -1,27 +1,3 @@
-html {
-    height: 100%;
-}
-
-body{
-    margin: 0px;
-    height: 100%;
-}
-
-#root{
-    height: 100%;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-}
-
-.row-center {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 .column-center {
     display: flex;
     flex-direction: column;

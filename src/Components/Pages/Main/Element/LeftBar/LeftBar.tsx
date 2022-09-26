@@ -1,14 +1,12 @@
-import React, { Component, Profiler, ReactElement } from "react";
+import React from "react";
 
 import { ProviderInterface } from "../../../../../Providers/ProviderInterface";
 import BasicProvider from "../../../../../Providers/BasicProvider";
-import FormJson from "../../../../../dataStructure";
 import "./leftBar.css";
 
 export default class FormGenerator
   extends React.Component
-  implements ProviderInterface
-{
+  implements ProviderInterface {
   constructor(props: any) {
     super(props);
   }
@@ -25,8 +23,8 @@ export default class FormGenerator
 
   render() {
     return (
-      <section className="col-3">
-        <h1>section : </h1>
+      <div className="left-section bg-white">
+        <h1>section:</h1>
         <ul>
           {BasicProvider.sections.map((element, index: number) => {
             return (
@@ -41,7 +39,8 @@ export default class FormGenerator
             );
           })}
         </ul>
-      </section>
+      </div>
+
     );
   }
 }
