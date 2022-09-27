@@ -17,7 +17,8 @@ export default class FormGenerator
       dataStructure: typeof FormJson;
     }
   >
-  implements ProviderInterface {
+  implements ProviderInterface
+{
   sectionsName: string[] = [];
 
   constructor(props: any) {
@@ -33,7 +34,7 @@ export default class FormGenerator
     BasicProvider.setSections(this.sectionsName);
     BasicProvider.setSectionsRank(this.state.Pagination);
   }
-  componentWillUnmount() { }
+  componentWillUnmount() {}
   rerender() {
     this.forceUpdate();
   }
@@ -45,10 +46,12 @@ export default class FormGenerator
       if (branch.isDisplayed) {
         components.push([]);
         components[page].push(
-          <h1 className="text-center" key={branch.branchName}>{branch.sectionName}</h1>
+          <h1 className="text-center" key={branch.branch}>
+            {branch.title}
+          </h1>
         );
-        branch.formStructure.forEach((formStructure: any) => {
-          components[page].push(this.dispatchInputType(formStructure));
+        branch.components.forEach((component: any) => {
+          components[page].push(this.dispatchInputType(component));
         });
         page++;
       }
@@ -56,32 +59,38 @@ export default class FormGenerator
     return components;
   }
 
-  dispatchInputType(formStructure: any): any {
-    switch (formStructure.inputType) {
+  dispatchInputType(component: any): any {
+    switch (component.inputType) {
       case "textField":
-        return <TextField
-          dataStructure={this.state.dataStructure}
-          formStructure={formStructure}
-          setParenState={this.setState.bind(this)}
-        ></TextField>;
+        return (
+          <TextField
+            dataStructure={this.state.dataStructure}
+            component={component}
+            setParenState={this.setState.bind(this)}
+          ></TextField>
+        );
         break;
 
       case "multiChoice":
-        return <MultiChoice
-          formStructure={formStructure}
-          dataStructure={this.state.dataStructure}
-          generateSectionTab={this.generateSectionTab.bind(this)}
-          setParenState={this.setState.bind(this)}
-        ></MultiChoice>;
+        return (
+          <MultiChoice
+            component={component}
+            dataStructure={this.state.dataStructure}
+            generateSectionTab={this.generateSectionTab.bind(this)}
+            setParenState={this.setState.bind(this)}
+          ></MultiChoice>
+        );
         break;
 
       default:
-        return (<Radio
-          formStructure={formStructure}
-          dataStructure={this.state.dataStructure}
-          generateSectionTab={this.generateSectionTab.bind(this)}
-          setParenState={this.setState.bind(this)}
-        ></Radio>);
+        return (
+          <Radio
+            component={component}
+            dataStructure={this.state.dataStructure}
+            generateSectionTab={this.generateSectionTab.bind(this)}
+            setParenState={this.setState.bind(this)}
+          ></Radio>
+        );
         break;
     }
   }
@@ -90,7 +99,7 @@ export default class FormGenerator
     this.sectionsName = [];
     this.state.dataStructure.forEach((element: any) => {
       if (element.isDisplayed) {
-        this.sectionsName.push(element.sectionName);
+        this.sectionsName.push(element.title);
       }
     });
     BasicProvider.setSections(this.sectionsName);
@@ -129,9 +138,7 @@ export default class FormGenerator
             Next
           </button>
         </div>
-
       </div>
-
     );
   }
 }

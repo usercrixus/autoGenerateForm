@@ -5,13 +5,13 @@ import BasicProvider from "../../../../../Providers/BasicProvider";
 import "./progressBar.css";
 
 export default class FormGenerator
-  extends React.Component<{}, { progressPercent: number; }>
-  implements ProviderInterface {
-
+  extends React.Component<{}, { progressPercent: number }>
+  implements ProviderInterface
+{
   constructor(props: any) {
     super(props);
     this.state = {
-      progressPercent: 0
+      progressPercent: 0,
     };
   }
 
@@ -22,14 +22,24 @@ export default class FormGenerator
     BasicProvider.unsubscribe(this);
   }
   rerender() {
-    this.setState({ progressPercent: (BasicProvider.sectionsRank + 1) / (BasicProvider.sections.length) * 100 });
+    this.setState({
+      progressPercent:
+        ((BasicProvider.sectionsRank + 1) / BasicProvider.sections.length) *
+        100,
+    });
   }
 
   render() {
     return (
-      <div className="p-0 h-100">
-        <div style={{ height: "3px", backgroundColor: "green", width: this.state.progressPercent + "%" }} className="backgroundColor">
-        </div>
+      <div className="container-progressBar">
+        <div
+          style={{
+            height: "8px",
+            backgroundColor: "green",
+            width: this.state.progressPercent + "%",
+          }}
+          className="backgroundColor"
+        ></div>
       </div>
     );
   }

@@ -1,16 +1,17 @@
 var dataStructure: any = [
   {
-    branchName: "start",
-    isDisplayed: true,
-    sectionName: "Part one",
-    formStructure: [
+    branch: "start", // branch reference
+    isDisplayed: true, // is the branch displayed
+    title: "Part one", // Title to display
+    components: [
+      // Form elements
       {
-        name: "firstName",
-        question: "First Name",
-        description: "What's your first name",
-        inputType: "textField",
-        isBranch: false,
-        value: "",
+        name: "firstName", // attribute name of the input
+        question: "First Name", // Question title
+        description: "What's your first name", // Question description
+        inputType: "textField", // input type
+        isBranch: false, // is the value linked to a name branch
+        value: "", // value
       },
       {
         name: "lastName",
@@ -30,13 +31,12 @@ var dataStructure: any = [
         value: [false, true],
       },
     ],
-    next: "end",
   },
   {
-    branchName: "french",
+    branch: "french",
     isDisplayed: false,
-    sectionName: "French",
-    formStructure: [
+    title: "French",
+    components: [
       {
         name: "favoriteAuthor",
         question: "Auteur préféré",
@@ -47,13 +47,12 @@ var dataStructure: any = [
         value: [true, true],
       },
     ],
-    next: null,
   },
   {
-    branchName: "english",
+    branch: "english",
     isDisplayed: false,
-    sectionName: "English",
-    formStructure: [
+    title: "English",
+    components: [
       {
         name: "favoriteAuthor",
         question: "Favorite autor",
@@ -64,13 +63,12 @@ var dataStructure: any = [
         value: [false, true],
       },
     ],
-    next: null,
   },
   {
-    branchName: "end",
+    branch: "end",
     isDisplayed: true,
-    sectionName: "Last questions",
-    formStructure: [
+    title: "Last questions",
+    components: [
       {
         name: "comment",
         question: "Comment",
@@ -88,7 +86,6 @@ var dataStructure: any = [
         value: "",
       },
     ],
-    next: null,
   },
 ];
 
