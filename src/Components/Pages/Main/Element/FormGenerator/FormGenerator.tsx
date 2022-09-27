@@ -8,31 +8,33 @@ import Radio from "./Element/Radio/Radio";
 import TextField from "./Element/TextField/TextField";
 import MultiChoice from "./Element/MultiChoice/MultiChoice";
 import ProgressBar from "../ProgressBar/ProgressBar";
+import Select from "./Element/Select/Select";
+import TextArea from "./Element/TextArea/TextArea";
 
 export default class FormGenerator
   extends React.Component<
     {},
     {
-      Pagination: number;
+      pagination: number;
       dataStructure: typeof FormJson;
     }
   >
   implements ProviderInterface
 {
-  sectionsName: string[] = [];
+  sections: string[] = [];
 
   constructor(props: any) {
     super(props);
     this.state = {
-      Pagination: 0,
+      pagination: 0,
       dataStructure: FormJson,
     };
   }
 
   componentDidMount() {
     this.generateSectionTab();
-    BasicProvider.setSections(this.sectionsName);
-    BasicProvider.setSectionsRank(this.state.Pagination);
+    BasicProvider.setSections(this.sections);
+    BasicProvider.setSectionsRank(this.state.pagination);
   }
   componentWillUnmount() {}
   rerender() {
@@ -82,6 +84,27 @@ export default class FormGenerator
         );
         break;
 
+      case "select":
+        return (
+          <Select
+            component={component}
+            dataStructure={this.state.dataStructure}
+            generateSectionTab={this.generateSectionTab.bind(this)}
+            setParenState={this.setState.bind(this)}
+          ></Select>
+        );
+        break;
+
+      case "textArea":
+        return (
+          <TextArea
+            component={component}
+            dataStructure={this.state.dataStructure}
+            setParenState={this.setState.bind(this)}
+          ></TextArea>
+        );
+        break;
+
       default:
         return (
           <Radio
@@ -96,35 +119,35 @@ export default class FormGenerator
   }
 
   generateSectionTab() {
-    this.sectionsName = [];
+    this.sections = [];
     this.state.dataStructure.forEach((element: any) => {
       if (element.isDisplayed) {
-        this.sectionsName.push(element.title);
+        this.sections.push(element.title);
       }
     });
-    BasicProvider.setSections(this.sectionsName);
+    BasicProvider.setSections(this.sections);
   }
 
   nextPage() {
-    BasicProvider.setSectionsRank(this.state.Pagination + 1);
-    this.setState({ Pagination: this.state.Pagination + 1 });
+    BasicProvider.setSectionsRank(this.state.pagination + 1);
+    this.setState({ pagination: this.state.pagination + 1 });
   }
 
   previousPage() {
-    BasicProvider.setSectionsRank(this.state.Pagination - 1);
-    this.setState({ Pagination: this.state.Pagination - 1 });
+    BasicProvider.setSectionsRank(this.state.pagination - 1);
+    this.setState({ pagination: this.state.pagination - 1 });
   }
 
   render() {
     let components = this.generateComponent();
     return (
       <div className="container-fluid main-section">
-        {components[this.state.Pagination]}
+        {components[this.state.pagination]}
 
         <div className="d-flex justify-content-center p-4">
           <button
             className="btn btn-primary"
-            disabled={this.state.Pagination === 0}
+            disabled={this.state.pagination === 0}
             onClick={this.previousPage.bind(this)}
             style={{ marginRight: "10px" }}
           >
@@ -132,7 +155,7 @@ export default class FormGenerator
           </button>
           <button
             className="btn btn-primary"
-            disabled={this.sectionsName.length - 1 === this.state.Pagination}
+            disabled={this.sections.length - 1 === this.state.pagination}
             onClick={this.nextPage.bind(this)}
           >
             Next

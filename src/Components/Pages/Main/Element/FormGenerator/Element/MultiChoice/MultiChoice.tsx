@@ -62,6 +62,20 @@ export default class Radio extends React.Component<
     index: number
   ) {
     field.value[index] = e.target.checked;
+
+    if (field.isBranch) {
+      this.props.dataStructure.forEach((branch: any) => {
+        if (branch.branch === field.multiChoice[index]) {
+          if (e.target.checked) {
+            branch.isDisplayed = true;
+          } else {
+            branch.isDisplayed = false;
+          }
+        }
+      });
+    }
+
+    this.props.generateSectionTab();
     this.props.setParenState({ dataStructure: this.props.dataStructure });
   }
 
