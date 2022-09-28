@@ -7,9 +7,15 @@ ul li{
 }
 
 .left-section{
+    width: 270px;
+    position: fixed;
     color: black;
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
-    border: 1px solid green;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-right: 1px solid black;
     padding: 20px;
+    display: flex;
+    flex-direction: row;
 }

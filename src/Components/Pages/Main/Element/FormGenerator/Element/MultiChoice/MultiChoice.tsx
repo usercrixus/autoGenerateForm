@@ -36,7 +36,7 @@ export default class Radio extends React.Component<
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    name={component.question}
+                    name={component.name}
                     value={component.value}
                     checked={component.value[index]}
                     onChange={(e) => this.eventMultiChoice(e, component, index)}
@@ -64,17 +64,24 @@ export default class Radio extends React.Component<
     field.value[index] = e.target.checked;
 
     if (field.isBranch) {
+      e.target.checked
+        ? field.branchRefValue.push(field.branchRef[index])
+        : field.branchRefValue.splice(
+            field.branchRefValue.indexOf(field.branchRef[index]),
+            1
+          );
       this.props.dataStructure.forEach((branch: any) => {
-        if (branch.branch === field.multiChoice[index]) {
+        if (branch.branch === field.branchRef[index]) {
           if (e.target.checked) {
             branch.isDisplayed = true;
           } else {
-            branch.isDisplayed = false;
+            if (!field.branchRefValue.includes(field.branchRef[index]))
+              branch.isDisplayed = false;
           }
         }
       });
     }
-
+    console.log(field.branchRefValue);
     this.props.generateSectionTab();
     this.props.setParenState({ dataStructure: this.props.dataStructure });
   }

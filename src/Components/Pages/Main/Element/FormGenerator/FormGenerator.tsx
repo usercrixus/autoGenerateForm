@@ -22,6 +22,7 @@ export default class FormGenerator
   implements ProviderInterface
 {
   sections: string[] = [];
+  isTriggerScrollTop: boolean = false;
 
   constructor(props: any) {
     super(props);
@@ -37,8 +38,20 @@ export default class FormGenerator
     BasicProvider.setSectionsRank(this.state.pagination);
   }
   componentWillUnmount() {}
+
   rerender() {
     this.forceUpdate();
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<{}>,
+    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson }>,
+    snapshot?: any
+  ): void {
+    if (this.isTriggerScrollTop) {
+      window.scrollTo(0, 0);
+      this.isTriggerScrollTop = false;
+    }
   }
 
   generateComponent(): any[][] {
@@ -66,6 +79,7 @@ export default class FormGenerator
       case "textField":
         return (
           <TextField
+            key={component.name}
             dataStructure={this.state.dataStructure}
             component={component}
             setParenState={this.setState.bind(this)}
@@ -76,6 +90,7 @@ export default class FormGenerator
       case "multiChoice":
         return (
           <MultiChoice
+            key={component.name}
             component={component}
             dataStructure={this.state.dataStructure}
             generateSectionTab={this.generateSectionTab.bind(this)}
@@ -87,6 +102,7 @@ export default class FormGenerator
       case "select":
         return (
           <Select
+            key={component.name}
             component={component}
             dataStructure={this.state.dataStructure}
             generateSectionTab={this.generateSectionTab.bind(this)}
@@ -98,6 +114,7 @@ export default class FormGenerator
       case "textArea":
         return (
           <TextArea
+            key={component.name}
             component={component}
             dataStructure={this.state.dataStructure}
             setParenState={this.setState.bind(this)}
@@ -108,6 +125,7 @@ export default class FormGenerator
       default:
         return (
           <Radio
+            key={component.name}
             component={component}
             dataStructure={this.state.dataStructure}
             generateSectionTab={this.generateSectionTab.bind(this)}
@@ -131,11 +149,13 @@ export default class FormGenerator
   nextPage() {
     BasicProvider.setSectionsRank(this.state.pagination + 1);
     this.setState({ pagination: this.state.pagination + 1 });
+    this.isTriggerScrollTop = true;
   }
 
   previousPage() {
     BasicProvider.setSectionsRank(this.state.pagination - 1);
     this.setState({ pagination: this.state.pagination - 1 });
+    this.isTriggerScrollTop = true;
   }
 
   render() {

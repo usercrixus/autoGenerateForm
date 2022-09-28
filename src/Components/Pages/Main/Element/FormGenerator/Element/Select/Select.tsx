@@ -36,7 +36,12 @@ export default class Select extends React.Component<
             onChange={(e) => this.eventSelect(e, component)}
           >
             {component.select.map((element: string, index: number) => {
-              return <option value={element}> {element}</option>;
+              return (
+                <option value={element} key={element}>
+                  {" "}
+                  {element}
+                </option>
+              );
             })}
           </select>
         </div>

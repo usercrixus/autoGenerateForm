@@ -6,7 +6,8 @@ import "./leftBar.css";
 
 export default class FormGenerator
   extends React.Component
-  implements ProviderInterface {
+  implements ProviderInterface
+{
   constructor(props: any) {
     super(props);
   }
@@ -23,23 +24,24 @@ export default class FormGenerator
 
   render() {
     return (
-      <div className="left-section bg-white">
-        <ul>
-          {BasicProvider.sections.map((element, index: number) => {
-            return (
-              <li
-                key={element}
-                className={
-                  BasicProvider.sectionsRank >= index ? "selected" : ""
-                }
-              >
-                {element}
-              </li>
-            );
-          })}
-        </ul>
+      <div style={{ width: "250px" }}>
+        <div className="left-section">
+          <ul>
+            {BasicProvider.sections.map((element, index: number) => {
+              return (
+                <li
+                  key={element}
+                  className={
+                    BasicProvider.sectionsRank >= index ? "selected" : ""
+                  }
+                >
+                  {element}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
-
     );
   }
 }

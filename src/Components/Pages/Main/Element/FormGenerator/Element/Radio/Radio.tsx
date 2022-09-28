@@ -36,9 +36,9 @@ export default class Radio extends React.Component<
                   <input
                     className="form-check-input"
                     type="radio"
-                    name={component.question}
+                    name={component.name}
                     value={element}
-                    checked={component.value[index]}
+                    checked={component.value === element}
                     onChange={(e) =>
                       this.eventRadio(e, component, element, index)
                     }
@@ -55,23 +55,18 @@ export default class Radio extends React.Component<
 
   eventRadio(
     e: React.ChangeEvent<HTMLInputElement>,
-    field: any,
+    component: any,
     value: string,
     index: number
   ) {
-    for (let i = 0; i < field.value.length; i++) {
-      if (i !== index) {
-        field.value[i] = false;
-      } else {
-        field.value[i] = true;
-      }
-    }
+    component.value = value;
 
-    if (field.isBranch) {
-      field.radio.forEach((radioValue: any) => {
+    if (component.isBranch) {
+      component.branchRefValue = component.branchRef[index];
+      component.branchRef.forEach((branchRef: any) => {
         this.props.dataStructure.forEach((branch: any) => {
-          if (branch.branch === radioValue) {
-            if (radioValue === value) {
+          if (branch.branch === branchRef) {
+            if (branchRef === component.branchRef[index]) {
               branch.isDisplayed = true;
             } else {
               branch.isDisplayed = false;

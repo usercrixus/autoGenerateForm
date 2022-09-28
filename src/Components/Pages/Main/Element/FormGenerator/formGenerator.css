@@ -7,7 +7,8 @@
     width: 500px;
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
+    border-top-left-radius: 0px;
     margin-left: 20px;
-    border: 1px solid green;
+
     padding: 20px;
 }

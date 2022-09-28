@@ -27,16 +27,50 @@ export default class FormGenerator
         ((BasicProvider.sectionsRank + 1) / BasicProvider.sections.length) *
         100,
     });
+
+    let progressPercent =
+      ((BasicProvider.sectionsRank + 1) / BasicProvider.sections.length) * 100;
+    let bufferWidth: number =
+      document.getElementById("progressBar")!.offsetWidth;
+    let browserWidth: number = document.body.offsetWidth;
+    let percentWidth: number = (bufferWidth / browserWidth) * 100;
+
+    if (percentWidth < progressPercent) {
+      this.increaseBar(percentWidth, progressPercent);
+    } else {
+      this.decreaseBar(percentWidth, progressPercent);
+    }
+  }
+
+  increaseBar(percentWidth: number, targetedWidth: number) {
+    setTimeout(() => {
+      document.getElementById("progressBar")!.style.width =
+        percentWidth + 2 + "%";
+      if (percentWidth + 2 < targetedWidth) {
+        this.increaseBar(percentWidth + 2, targetedWidth);
+      }
+    }, 15);
+  }
+
+  decreaseBar(percentWidth: number, targetedWidth: number) {
+    setTimeout(() => {
+      document.getElementById("progressBar")!.style.width =
+        percentWidth - 2 + "%";
+      if (percentWidth - 2 > targetedWidth) {
+        this.decreaseBar(percentWidth - 2, targetedWidth);
+      }
+    }, 15);
   }
 
   render() {
     return (
       <div className="container-progressBar">
         <div
+          id="progressBar"
           style={{
             height: "8px",
             backgroundColor: "green",
-            width: this.state.progressPercent + "%",
+            width: "0px",
           }}
           className="backgroundColor"
         ></div>

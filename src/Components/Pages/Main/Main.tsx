@@ -15,9 +15,6 @@ export default function Main() {
           <FormGenerator></FormGenerator>
         </div>
       </div>
-      <footer className="text-center mt-4 position-fixed bottom-0 w-100">
-        Developped by ©Altyor 2022
-      </footer>
     </div>
   );
 }
