@@ -158,6 +158,32 @@ export default class FormGenerator
     this.isTriggerScrollTop = true;
   }
 
+  sendForm() {
+    let jsonAnswer: any = {};
+    this.state.dataStructure.forEach((branch: any) => {
+      if (branch.isDisplayed) {
+        branch.components.forEach((component: any) => {
+          if (
+            component.inputType === "textField" ||
+            component.inputType === "radio" ||
+            component.inputType === "textArea"
+          ) {
+            jsonAnswer[component.name] = component.value;
+          }
+          if (component.inputType === "multiChoice") {
+            if (component.value.includes(true)) jsonAnswer[component.name] = [];
+            for (let i = 0; i < component.multiChoice.length; i++) {
+              if (component.value[i] == true) {
+                jsonAnswer[component.name].push(component.multiChoice[i]);
+              }
+            }
+          }
+        });
+      }
+    });
+    console.log(jsonAnswer);
+  }
+
   render() {
     let components = this.generateComponent();
     return (
@@ -171,15 +197,24 @@ export default class FormGenerator
             onClick={this.previousPage.bind(this)}
             style={{ marginRight: "10px" }}
           >
-            Previous
+            Precedent
           </button>
-          <button
-            className="btn btn-primary"
-            disabled={this.sections.length - 1 === this.state.pagination}
-            onClick={this.nextPage.bind(this)}
-          >
-            Next
-          </button>
+          {this.sections.length - 1 === this.state.pagination ? (
+            <button
+              className="btn btn-primary"
+              onClick={this.sendForm.bind(this)}
+            >
+              Envoyer
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              disabled={this.sections.length - 1 === this.state.pagination}
+              onClick={this.nextPage.bind(this)}
+            >
+              Suivant
+            </button>
+          )}
         </div>
       </div>
     );

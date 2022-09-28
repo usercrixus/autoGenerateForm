@@ -81,7 +81,6 @@ export default class Radio extends React.Component<
         }
       });
     }
-    console.log(field.branchRefValue);
     this.props.generateSectionTab();
     this.props.setParenState({ dataStructure: this.props.dataStructure });
   }

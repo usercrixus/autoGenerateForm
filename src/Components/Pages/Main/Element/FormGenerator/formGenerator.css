@@ -8,7 +8,7 @@
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
     border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
     margin-left: 20px;
-
     padding: 20px;
 }

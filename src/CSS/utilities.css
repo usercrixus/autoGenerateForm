@@ -1,6 +1,12 @@
-h1,h2 {
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+        font-size: 25px;
     padding: 0px;
-    margin: 0px;
+    margin-top: 25px;
+    margin-bottom: 0px;
 }
 
 footer{
