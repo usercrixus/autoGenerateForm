@@ -121,7 +121,7 @@ var dataStructure: any = [
           "Plus de 1000",
         ],
         isBranch: false,
-        value: "",
+        value: "Moins de 10",
       },
     ],
   },
@@ -150,7 +150,7 @@ var dataStructure: any = [
         name: "projetDoc",
         question: "Document",
         description:
-          "Avez-vous un fichier contenant une description complète ? *",
+          "Avez-vous un fichier contenant une description complète ?",
         inputType: "radio",
         radio: ["yes", "no"],
         isBranch: false,

@@ -17,18 +17,20 @@ export default class FormGenerator
     {
       pagination: number;
       dataStructure: typeof FormJson;
+      isToolTipDisplayed: boolean;
     }
   >
   implements ProviderInterface
 {
   sections: string[] = [];
   isTriggerScrollTop: boolean = false;
-
+  isNextButtonEnable: boolean = false;
   constructor(props: any) {
     super(props);
     this.state = {
       pagination: 0,
       dataStructure: FormJson,
+      isToolTipDisplayed: false,
     };
   }
 
@@ -51,6 +53,7 @@ export default class FormGenerator
     if (this.isTriggerScrollTop) {
       window.scrollTo(0, 0);
       this.isTriggerScrollTop = false;
+      this.setState({ isToolTipDisplayed: false });
     }
   }
 
@@ -158,6 +161,47 @@ export default class FormGenerator
     this.isTriggerScrollTop = true;
   }
 
+  getDisplayedBranchByIndex(index: number): any {
+    let iDisplayed = 0;
+    let bufferBranch: any = {};
+    for (let i = 0; i < this.state.dataStructure.length; i++) {
+      if (this.state.dataStructure[i].isDisplayed && iDisplayed == index) {
+        bufferBranch = this.state.dataStructure[i];
+        break;
+      } else if (this.state.dataStructure[i].isDisplayed) {
+        iDisplayed++;
+      }
+    }
+    return bufferBranch;
+  }
+
+  isRequired(component: any) {
+    return component.question.endsWith("*");
+  }
+
+  isEnableByRequiredInput(): boolean {
+    let isEnable: boolean = true;
+    let branch: any = this.getDisplayedBranchByIndex(
+      BasicProvider.sectionsRank
+    );
+    branch.components.forEach((component: any) => {
+      if (this.isRequired(component)) {
+        if (component.inputType === "multiChoice") {
+          if (!component.value.includes(true)) {
+            isEnable = false;
+            return;
+          }
+        } else {
+          if (component.value.length === 0) {
+            isEnable = false;
+            return;
+          }
+        }
+      }
+    });
+    return isEnable;
+  }
+
   sendForm() {
     let jsonAnswer: any = {};
     this.state.dataStructure.forEach((branch: any) => {
@@ -185,11 +229,11 @@ export default class FormGenerator
   }
 
   render() {
+    this.isNextButtonEnable = this.isEnableByRequiredInput();
     let components = this.generateComponent();
     return (
       <div className="container-fluid main-section">
         {components[this.state.pagination]}
-
         <div className="d-flex justify-content-center p-4">
           <button
             className="btn btn-primary"
@@ -197,23 +241,50 @@ export default class FormGenerator
             onClick={this.previousPage.bind(this)}
             style={{ marginRight: "10px" }}
           >
-            Precedent
+            Previous
           </button>
           {this.sections.length - 1 === this.state.pagination ? (
             <button
               className="btn btn-primary"
               onClick={this.sendForm.bind(this)}
             >
-              Envoyer
+              Send
             </button>
           ) : (
-            <button
-              className="btn btn-primary"
-              disabled={this.sections.length - 1 === this.state.pagination}
-              onClick={this.nextPage.bind(this)}
+            <div
+              onMouseEnter={() => this.setState({ isToolTipDisplayed: true })}
+              onMouseMove={(e) => {
+                let element = document.getElementById("tooltip");
+                if (element) {
+                  element!.style.left = e.pageX + "px";
+                  element!.style.top = e.pageY + "px";
+                }
+              }}
+              onMouseLeave={() => this.setState({ isToolTipDisplayed: false })}
             >
-              Suivant
-            </button>
+              <button
+                className="btn btn-primary"
+                disabled={!this.isNextButtonEnable}
+                onClick={this.nextPage.bind(this)}
+              >
+                Next
+                {this.state.isToolTipDisplayed && !this.isNextButtonEnable ? (
+                  <div
+                    id="tooltip"
+                    style={{
+                      position: "absolute",
+                      backgroundColor: "red",
+                      padding: "10px",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    fields with * must be filled
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </div>
