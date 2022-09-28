@@ -473,7 +473,7 @@ var dataStructure: any = [
     components: [
       {
         name: "ecoConception",
-        question: "Vision écologique",
+        question: "Vision écologique *",
         description:
           "Dans le cadre de votre projet, avez-vous inclus des éléments tels que :",
         inputType: "multiChoice",
@@ -488,7 +488,7 @@ var dataStructure: any = [
       },
       {
         name: "sourceContact",
-        question: "Comment nous connaissez-vous",
+        question: "Comment nous connaissez-vous *",
         description: "Comment nous avez-vous connu ?",
         inputType: "multiChoice",
         multiChoice: [
@@ -505,7 +505,7 @@ var dataStructure: any = [
       },
       {
         name: "email",
-        question: "E-Mail",
+        question: "E-Mail *",
         description: "Quel est votre e-mail",
         inputType: "textField",
         isBranch: false,
@@ -513,7 +513,7 @@ var dataStructure: any = [
       },
       {
         name: "tel",
-        question: "Téléphone",
+        question: "Téléphone *",
         description: "Quel est votre téléphone",
         inputType: "textField",
         isBranch: false,
@@ -521,7 +521,7 @@ var dataStructure: any = [
       },
       {
         name: "adresse",
-        question: "Adresse",
+        question: "Adresse *",
         description: "Quel est votre adresse (150 rue du generale de gaule)",
         inputType: "textField",
         isBranch: false,
@@ -529,7 +529,7 @@ var dataStructure: any = [
       },
       {
         name: "ville",
-        question: "Ville",
+        question: "Ville *",
         description: "Quel est votre ville (Paris)",
         inputType: "textField",
         isBranch: false,
@@ -537,7 +537,7 @@ var dataStructure: any = [
       },
       {
         name: "codePostal",
-        question: "Code Postal",
+        question: "Code Postal *",
         description: "Quel est votre code postal (75015)",
         inputType: "textField",
         isBranch: false,
@@ -545,14 +545,14 @@ var dataStructure: any = [
       },
       {
         name: "pays",
-        question: "Pays",
+        question: "Pays *",
         description: "Quel est votre pays (France)",
         inputType: "textField",
         isBranch: false,
         value: "",
       },
       {
-        name: "emailMarketing",
+        name: "emailMarketing *",
         question: "Marketing ?",
         description:
           "J'accepte de recevoir des e-mails marketing de la part d'ALTYOR (newsletters, actualités, évènements, etc.). Promis, on ne vous embêtera pas plus d'une fois par mois.",
@@ -562,13 +562,13 @@ var dataStructure: any = [
         isBranch: false,
       },
       {
-        name: "acceptation",
-        question: "RGPD",
+        name: "acceptation *",
+        question: "RGPD *",
         description:
           "En soumettant ce formulaire, j'accepte que les informations saisies soient stockées et exploitées dans le cadre de la relation commerciale qui peut en découler. Vous pouvez demander à supprimer vos données à tout moment.",
-        inputType: "radio",
-        radio: ["oui", "non"],
-        value: "",
+        inputType: "multiChoice",
+        multiChoice: ["J'accepte"],
+        value: [false],
         isBranch: false,
       },
     ],
