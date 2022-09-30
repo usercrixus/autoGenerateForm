@@ -16,3 +16,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media screen and (max-width: 800px) {
+  html {
+      background-color: rgb(233, 233, 233);
+    }
+}

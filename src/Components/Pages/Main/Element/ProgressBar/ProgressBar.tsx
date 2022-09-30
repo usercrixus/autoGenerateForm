@@ -69,7 +69,6 @@ export default class FormGenerator
           id="progressBar"
           style={{
             height: "8px",
-            backgroundColor: "green",
             width: "0px",
           }}
           className="backgroundColor"

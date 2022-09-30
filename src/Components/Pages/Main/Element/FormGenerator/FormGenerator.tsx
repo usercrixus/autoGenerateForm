@@ -20,7 +20,8 @@ export default class FormGenerator
       isToolTipDisplayed: boolean;
     }
   >
-  implements ProviderInterface {
+  implements ProviderInterface
+{
   sections: string[] = [];
   isTriggerScrollTop: boolean = false;
   isNextButtonEnable: boolean = false;
@@ -38,7 +39,7 @@ export default class FormGenerator
     BasicProvider.setSections(this.sections);
     BasicProvider.setSectionsRank(this.state.pagination);
   }
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   rerender() {
     this.forceUpdate();
@@ -46,11 +47,12 @@ export default class FormGenerator
 
   componentDidUpdate(
     prevProps: Readonly<{}>,
-    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson; }>,
+    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson }>,
     snapshot?: any
   ): void {
     if (this.isTriggerScrollTop) {
-      document.documentElement.scrollTop = document.documentElement.scrollHeight;
+      document.documentElement.scrollTop =
+        document.documentElement.scrollHeight;
       window.scrollTo(0, 0);
       this.isTriggerScrollTop = false;
       this.setState({ isToolTipDisplayed: false });
@@ -245,6 +247,7 @@ export default class FormGenerator
           </button>
           <div
             onMouseEnter={() => this.setState({ isToolTipDisplayed: true })}
+            onClick={() => this.setState({ isToolTipDisplayed: true })}
             onMouseMove={(e) => {
               let element = document.getElementById("tooltip");
               if (element) {

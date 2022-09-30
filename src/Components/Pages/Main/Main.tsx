@@ -1,32 +1,22 @@
 import FormGenerator from "./Element/FormGenerator/FormGenerator";
 import LeftBar from "./Element/LeftBar/LeftBar";
 import ProgressBar from "./Element/ProgressBar/ProgressBar";
+import "./main.css";
 
 export default function Main() {
   return (
     <div>
-      <div
-        style={{
-          position: "fixed",
-          top: "0px",
-          width: "100%",
-          height: "200px",
-          backgroundColor: "black",
-        }}
-      >
+      <header>
         <ProgressBar></ProgressBar>
-        <div className="container-fluid d-flex justify-content-center">
-          <img src="./LogoAltyorHOrange.png" />
+        <div className="fullCenter">
+          <img id="logo" src="./LogoAltyorHOrange.png" />
         </div>
-      </div>
-      <div
-        style={{ marginTop: "200px" }}
-        className="d-flex justify-content-center align-items-center"
-      >
-        <div className="d-flex mb-5">
+      </header>
+      <div style={{ marginTop: "200px" }} className="fullCenter">
+        <section id="mainSection">
           <LeftBar></LeftBar>
           <FormGenerator></FormGenerator>
-        </div>
+        </section>
       </div>
     </div>
   );

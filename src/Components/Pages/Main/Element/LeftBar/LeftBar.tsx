@@ -24,7 +24,7 @@ export default class FormGenerator
 
   render() {
     return (
-      <div style={{ width: "250px" }}>
+      <div style={{ width: "250px" }} id="leftBar">
         <div className="left-section">
           <ul>
             {BasicProvider.sections.map((element, index: number) => {
