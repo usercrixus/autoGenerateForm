@@ -54,7 +54,7 @@ export default class Select extends React.Component<
 
     if (field.isBranch) {
       field.select.forEach((selectValue: any) => {
-        this.props.dataStructure.forEach((branch: any) => {
+        this.props.dataStructure.form.forEach((branch: any) => {
           if (branch.branch === field.value) {
             branch.isDisplayed = true;
           } else {

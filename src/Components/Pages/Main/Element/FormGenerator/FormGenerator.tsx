@@ -62,7 +62,7 @@ export default class FormGenerator
   generateComponent(): any[][] {
     let page = 0;
     let components: any[][] = [];
-    this.state.dataStructure.forEach((branch: any) => {
+    this.state.dataStructure.form.forEach((branch: any) => {
       if (branch.isDisplayed) {
         components.push([]);
         components[page].push(
@@ -143,7 +143,7 @@ export default class FormGenerator
 
   generateSectionTab() {
     this.sections = [];
-    this.state.dataStructure.forEach((element: any) => {
+    this.state.dataStructure.form.forEach((element: any) => {
       if (element.isDisplayed) {
         this.sections.push(element.title);
       }
@@ -166,11 +166,11 @@ export default class FormGenerator
   getDisplayedBranchByIndex(index: number): any {
     let iDisplayed = 0;
     let bufferBranch: any = {};
-    for (let i = 0; i < this.state.dataStructure.length; i++) {
-      if (this.state.dataStructure[i].isDisplayed && iDisplayed == index) {
-        bufferBranch = this.state.dataStructure[i];
+    for (let i = 0; i < this.state.dataStructure.form.length; i++) {
+      if (this.state.dataStructure.form[i].isDisplayed && iDisplayed == index) {
+        bufferBranch = this.state.dataStructure.form[i];
         break;
-      } else if (this.state.dataStructure[i].isDisplayed) {
+      } else if (this.state.dataStructure.form[i].isDisplayed) {
         iDisplayed++;
       }
     }
@@ -204,9 +204,9 @@ export default class FormGenerator
     return isEnable;
   }
 
-  sendForm() {
+  generateJson(): any {
     let jsonAnswer: any = {};
-    this.state.dataStructure.forEach((branch: any) => {
+    this.state.dataStructure.form.forEach((branch: any) => {
       if (branch.isDisplayed) {
         branch.components.forEach((component: any) => {
           if (
@@ -228,6 +228,23 @@ export default class FormGenerator
       }
     });
     console.log(jsonAnswer);
+    return jsonAnswer;
+  }
+
+  sendForm() {
+    fetch(this.state.dataStructure.endPoint, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: this.state.dataStructure.header,
+      body: JSON.stringify(JSON.stringify(this.generateJson())),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error to send the form");
+        return res.json();
+      })
+      .catch((error: Error) => {
+        // console.log(error.message);
+        //document.location.href = "https://altyor.fr";
+      });
   }
 
   render() {

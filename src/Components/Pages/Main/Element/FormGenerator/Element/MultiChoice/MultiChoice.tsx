@@ -70,7 +70,7 @@ export default class Radio extends React.Component<
             field.branchRefValue.indexOf(field.branchRef[index]),
             1
           );
-      this.props.dataStructure.forEach((branch: any) => {
+      this.props.dataStructure.form.forEach((branch: any) => {
         if (branch.branch === field.branchRef[index]) {
           if (e.target.checked) {
             branch.isDisplayed = true;
