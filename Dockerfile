@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /app
 
 # Copies everything over to Docker environment
-COPY . .
+COPY ./build ./build
 
 # Install `serve` to run the application.
 RUN npm install -g serve

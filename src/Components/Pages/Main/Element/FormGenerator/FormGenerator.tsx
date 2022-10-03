@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 import { ProviderInterface } from "../../../../../Providers/ProviderInterface";
 import BasicProvider from "../../../../../Providers/BasicProvider";
@@ -20,11 +20,26 @@ export default class FormGenerator
       isToolTipDisplayed: boolean;
     }
   >
-  implements ProviderInterface
-{
+  implements ProviderInterface {
   sections: string[] = [];
   isTriggerScrollTop: boolean = false;
   isNextButtonEnable: boolean = false;
+
+  toolTipsNext: ReactElement = (
+    <div
+      id="tooltip"
+      style={{
+        position: "absolute",
+        backgroundColor: "IndianRed",
+        padding: "10px",
+        borderRadius: "10px",
+      }}
+    >
+      fields with * must be filled
+    </div>
+  );
+
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -39,7 +54,7 @@ export default class FormGenerator
     BasicProvider.setSections(this.sections);
     BasicProvider.setSectionsRank(this.state.pagination);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   rerender() {
     this.forceUpdate();
@@ -47,13 +62,13 @@ export default class FormGenerator
 
   componentDidUpdate(
     prevProps: Readonly<{}>,
-    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson }>,
+    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson; }>,
     snapshot?: any
   ): void {
     if (this.isTriggerScrollTop) {
-      document.documentElement.scrollTop =
-        document.documentElement.scrollHeight;
-      window.scrollTo(0, 0);
+      setTimeout(() => { // uggly solution to avoid bug. window.scrollTo() wouldn't fire without setTimeout
+        window.scrollTo(0, 0);
+      });
       this.isTriggerScrollTop = false;
       this.setState({ isToolTipDisplayed: false });
     }
@@ -151,18 +166,6 @@ export default class FormGenerator
     BasicProvider.setSections(this.sections);
   }
 
-  nextPage() {
-    this.isTriggerScrollTop = true;
-    BasicProvider.setSectionsRank(this.state.pagination + 1);
-    this.setState({ pagination: this.state.pagination + 1 });
-  }
-
-  previousPage() {
-    this.isTriggerScrollTop = true;
-    BasicProvider.setSectionsRank(this.state.pagination - 1);
-    this.setState({ pagination: this.state.pagination - 1 });
-  }
-
   getDisplayedBranchByIndex(index: number): any {
     let iDisplayed = 0;
     let bufferBranch: any = {};
@@ -232,6 +235,7 @@ export default class FormGenerator
   }
 
   sendForm() {
+    this.isTriggerScrollTop = true;
     fetch(this.state.dataStructure.endPoint, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: this.state.dataStructure.header,
@@ -245,6 +249,18 @@ export default class FormGenerator
         // console.log(error.message);
         //document.location.href = "https://altyor.fr";
       });
+  }
+
+  nextPage() {
+    this.isTriggerScrollTop = true;
+    BasicProvider.setSectionsRank(this.state.pagination + 1);
+    this.setState({ pagination: this.state.pagination + 1 });
+  }
+
+  previousPage() {
+    this.isTriggerScrollTop = true;
+    BasicProvider.setSectionsRank(this.state.pagination - 1);
+    this.setState({ pagination: this.state.pagination - 1 });
   }
 
   render() {
@@ -281,21 +297,6 @@ export default class FormGenerator
                 disabled={!this.isNextButtonEnable}
               >
                 Send
-                {this.state.isToolTipDisplayed && !this.isNextButtonEnable ? (
-                  <div
-                    id="tooltip"
-                    style={{
-                      position: "absolute",
-                      backgroundColor: "red",
-                      padding: "10px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    fields with * must be filled
-                  </div>
-                ) : (
-                  <></>
-                )}
               </button>
             ) : (
               <button
@@ -304,22 +305,13 @@ export default class FormGenerator
                 onClick={this.nextPage.bind(this)}
               >
                 Next
-                {this.state.isToolTipDisplayed && !this.isNextButtonEnable ? (
-                  <div
-                    id="tooltip"
-                    style={{
-                      position: "absolute",
-                      backgroundColor: "red",
-                      padding: "10px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    fields with * must be filled
-                  </div>
-                ) : (
-                  <></>
-                )}
               </button>
+
+            )}
+            {this.state.isToolTipDisplayed && !this.isNextButtonEnable ? (
+              this.toolTipsNext
+            ) : (
+              <></>
             )}
           </div>
         </div>
