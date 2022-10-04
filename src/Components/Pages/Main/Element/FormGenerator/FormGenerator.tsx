@@ -10,6 +10,7 @@ import MultiChoice from "./Element/MultiChoice/MultiChoice";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import Select from "./Element/Select/Select";
 import TextArea from "./Element/TextArea/TextArea";
+import FilePicker from "./Element/File/FilePicker";
 
 export default class FormGenerator
   extends React.Component<
@@ -124,6 +125,17 @@ export default class FormGenerator
             dataStructure={this.state.dataStructure}
             setParenState={this.setState.bind(this)}
           ></TextArea>
+        );
+        break;
+
+      case "filePicker":
+        return (
+          <FilePicker
+            key={component.name}
+            component={component}
+            dataStructure={this.state.dataStructure}
+            setParenState={this.setState.bind(this)}
+          ></FilePicker>
         );
         break;
 
