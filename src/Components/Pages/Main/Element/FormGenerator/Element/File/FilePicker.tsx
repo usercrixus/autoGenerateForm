@@ -27,25 +27,55 @@ export default class FilePicker extends React.Component<
       <>
         <h2>{component.question}</h2>
         <span>{component.description}</span>
-        <div className="form-group" key={component.name}>
-          <div className="form-check">
-            <input
-              className="form-control"
-              type="file"
-              name={component.name}
-              value={component.value}
-              onChange={(e) => this.eventFilePicker(e, component)}
-            />
-            <label className="form-label">Choose file</label>
-          </div>
-        </div>
+
+        <input
+          className="form-control"
+          type="file"
+          multiple
+          name={component.name}
+          onChange={(e) => this.eventFilePicker(e, component)}
+        />
+
+        {component.value.map((file: any) => {
+          return (
+            <div key={file.name}>
+              {file.name}
+              <img
+                className="cancel"
+                src="cancel.svg"
+                width={"25px"}
+                alt="delete"
+                title="click to remove this file"
+                onClick={(e) => this.removeFile(component, file.name)}
+              />
+            </div>
+          );
+        })}
       </>
     );
   }
 
   eventFilePicker(e: React.ChangeEvent<HTMLInputElement>, field: any) {
-    field.value = e.target.files ? e.target.files[0] : null;
+    if (e.target.files) {
+      field.value = Array.from(e.target.files);
+    }
     this.props.setParenState({ dataStructure: this.props.dataStructure });
+  }
+
+  removeFile(component: any, fileName: string) {
+    component.value.splice(this.indexFileByName(component.value, fileName), 1);
+    this.props.setParenState({ dataStructure: this.props.dataStructure });
+  }
+
+  indexFileByName(files: File[], fileName: string): number {
+    let index = -1;
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].name == fileName) {
+        index = i;
+        break;
+      }
+    }
+    return index;
   }
 
   render() {

@@ -150,14 +150,13 @@ var dataStructure: any = {
           value: "",
         },
         {
-          name: "projetDoc",
-          question: "Document",
+          name: "projetDoc", // attribute name of the input
+          question: "Document", // Question title
           description:
             "Avez-vous un fichier contenant une description complète ?",
-          inputType: "radio",
-          radio: ["yes", "no"],
-          isBranch: false,
-          value: "",
+          inputType: "filePicker", // input type
+          isBranch: false, // is the value linked to a name branch
+          value: [], // value
         },
         {
           name: "nda",

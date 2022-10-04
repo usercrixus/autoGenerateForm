@@ -21,7 +21,8 @@ export default class FormGenerator
       isToolTipDisplayed: boolean;
     }
   >
-  implements ProviderInterface {
+  implements ProviderInterface
+{
   sections: string[] = [];
   isTriggerScrollTop: boolean = false;
   isNextButtonEnable: boolean = false;
@@ -31,7 +32,7 @@ export default class FormGenerator
       id="tooltip"
       style={{
         position: "absolute",
-        backgroundColor: "IndianRed",
+        backgroundColor: "#f45c54",
         padding: "10px",
         borderRadius: "10px",
       }}
@@ -39,7 +40,6 @@ export default class FormGenerator
       fields with * must be filled
     </div>
   );
-
 
   constructor(props: any) {
     super(props);
@@ -55,7 +55,7 @@ export default class FormGenerator
     BasicProvider.setSections(this.sections);
     BasicProvider.setSectionsRank(this.state.pagination);
   }
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   rerender() {
     this.forceUpdate();
@@ -63,11 +63,12 @@ export default class FormGenerator
 
   componentDidUpdate(
     prevProps: Readonly<{}>,
-    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson; }>,
+    prevState: Readonly<{ pagination: number; dataStructure: typeof FormJson }>,
     snapshot?: any
   ): void {
     if (this.isTriggerScrollTop) {
-      setTimeout(() => { // uggly solution to avoid bug. window.scrollTo() wouldn't fire without setTimeout
+      setTimeout(() => {
+        // uggly solution to avoid bug. window.scrollTo() wouldn't fire without setTimeout
         window.scrollTo(0, 0);
       });
       this.isTriggerScrollTop = false;
@@ -318,7 +319,6 @@ export default class FormGenerator
               >
                 Next
               </button>
-
             )}
             {this.state.isToolTipDisplayed && !this.isNextButtonEnable ? (
               this.toolTipsNext
