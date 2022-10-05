@@ -34,11 +34,12 @@ export default class FilePicker extends React.Component<
           multiple
           name={component.name}
           onChange={(e) => this.eventFilePicker(e, component)}
+          style={{ marginBottom: component.value.length > 0 ? "10px" : "0px" }}
         />
 
-        {component.value.map((file: any) => {
+        {component.value.map((file: any, index: number) => {
           return (
-            <div key={file.name}>
+            <div key={index}>
               {file.name}
               <img
                 className="cancel"
@@ -57,13 +58,17 @@ export default class FilePicker extends React.Component<
 
   eventFilePicker(e: React.ChangeEvent<HTMLInputElement>, field: any) {
     if (e.target.files) {
-      field.value = Array.from(e.target.files);
+      field.value = field.value.concat(Array.from(e.target.files));
+      e.target.value = "";
     }
     this.props.setParenState({ dataStructure: this.props.dataStructure });
   }
 
   removeFile(component: any, fileName: string) {
-    component.value.splice(this.indexFileByName(component.value, fileName), 1);
+    let index: number = this.indexFileByName(component.value, fileName);
+    if (index !== -1) {
+      component.value.splice(index, 1);
+    }
     this.props.setParenState({ dataStructure: this.props.dataStructure });
   }
 
