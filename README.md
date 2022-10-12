@@ -43,7 +43,7 @@ Textfield :
 ```javascript
         {
           name: "nom", // attribute name of the input
-          question: "Nom *", // Question title
+          question: "Nom *", // Question title. If finish with "*", the field is required
           description: "Quel est votre nom ?", // Question description
           inputType: "textField", // input type
           isBranch: false, // is the value linked to a branch name
@@ -56,7 +56,7 @@ Select :
 ```javascript
         {
           name: "role", // attribute name of the input
-          question: "Rôle *", // Question title
+          question: "Rôle *", // Question title. If finish with "*", the field is required
           description: "Quel est votre rôle dans le projet ?", // Question description
           inputType: "select", // input type
           select: [ // list of possible value
@@ -76,7 +76,7 @@ Radio :
 ```javascript
         {
           name: "entreprise", // attribute name of the input
-          question: "Votre entreprise *", // Question title
+          question: "Votre entreprise *", // Question title. If finish with "*", the field is required
           description: "Votre entreprise existe t-elle déja ?", // Question description
           inputType: "radio", // input type
           radio: ["oui", "non"], // possible value
@@ -92,7 +92,7 @@ TextArea :
 ```javascript
         {
           name: "projetDescription", // attribute name of the input
-          question: "Votre projet *", // Question title
+          question: "Votre projet *", // Question title. If finish with "*", the field is required
           description: "Décrivez votre projet *", // Question description
           inputType: "textArea", // input type
           isBranch: false, // is the value linked to a branch name
@@ -105,7 +105,7 @@ FilePicker :
 ```javascript
         {
           name: "projetDoc", // attribute name of the input
-          question: "Document", // Question title
+          question: "Document", // Question title. If finish with "*", the field is required
           description:  // Question description
             "Avez-vous un fichier contenant une description complète ?",
           inputType: "filePicker", // input type
@@ -119,7 +119,7 @@ Multichoice :
 ```javascript
         {
           name: "services",  // attribute name of the input
-          question: "Services Altyor *", // Question title
+          question: "Services Altyor *", // Question title. If finish with "*", the field is required. If finish with "*", the field is required
           description: "Quels services proposés par Altyor vous intéressent ?", // Question description
           inputType: "multiChoice", // input type
           multiChoice: [ // list of possible choice. Array of string only
