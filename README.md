@@ -1,46 +1,161 @@
-# Getting Started with Create React App
+# DataStructure explained
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To create your own personnal form you have to create your own personnal data structure. \
+\
+The data structure is located in src/dataStructure.tsx file. \
+\
+Let's look line by line how it is construct.\
+\
+The server endpoint where the json response of the form will be send\
 
-## Available Scripts
+```javascript
+endPoint: "http://dnsdatacheck.pueym9p8fgvu05gp.b.requestbin.net";
+```
 
-In the project directory, you can run:
+Header necessry for the server end point to handle the request (token, bearer auth etc)
 
-### `npm start`
+```javascript
+  header: {},
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+List of form element like text area, input text, radio, check box etc
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```javascript
+form: [];
+```
 
-### `npm test`
+In the form array, we will insert element that we can call "branch" or "page". Our form in custitued from a series of page. Every page have a "next" button, expect the last one who have a "send" button".\
+Branch look like :
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```javascript
+    {
+      branch: "presentation", // branch reference (like a variable code. No space, No accent or special char)
+      isDisplayed: true, // is the branch displayed
+      title: "Presentation", // The title to display on the top of the page
+      components: [] // a list of form element like text area, input text, input file etc
+    }
+```
 
-### `npm run build`
+# Json component explained
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Textfield :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```javascript
+        {
+          name: "nom", // attribute name of the input
+          question: "Nom *", // Question title
+          description: "Quel est votre nom ?", // Question description
+          inputType: "textField", // input type
+          isBranch: false, // is the value linked to a branch name
+          value: "", // value
+        },
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Select :
 
-### `npm run eject`
+```javascript
+        {
+          name: "role", // attribute name of the input
+          question: "Rôle *", // Question title
+          description: "Quel est votre rôle dans le projet ?", // Question description
+          inputType: "select", // input type
+          select: [ // list of possible value
+            "Inventeur",
+            "Directeur Generale",
+            "Salarie CTO",
+            "Chef de projet",
+            "Conseiller technique",
+          ],
+          value: "Directeur Generale", // value (to avoid bug, this field is required and should be listed in the select array)
+          isBranch: false, // is the value linked to a branch name
+        },
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Radio :
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+        {
+          name: "entreprise", // attribute name of the input
+          question: "Votre entreprise *", // Question title
+          description: "Votre entreprise existe t-elle déja ?", // Question description
+          inputType: "radio", // input type
+          radio: ["oui", "non"], // possible value
+          value: "", // value can be an empty string or a string listed in the radio array
+          isBranch: true, // is the value linked to a branch name
+          branchRef: ["isEntreprise", "isNotEntreprise"], // list of value that branchRefValue can take.
+          branchRefValue: "", // If isBranch is true then branches who have the name referenced in branchRefValue will be displayed ; there "isDisplayed" value will be set on true.
+        },
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+TextArea :
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```javascript
+        {
+          name: "projetDescription", // attribute name of the input
+          question: "Votre projet *", // Question title
+          description: "Décrivez votre projet *", // Question description
+          inputType: "textArea", // input type
+          isBranch: false, // is the value linked to a branch name
+          value: "", // value of the textfield
+        },
+```
 
-## Learn More
+FilePicker :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```javascript
+        {
+          name: "projetDoc", // attribute name of the input
+          question: "Document", // Question title
+          description:  // Question description
+            "Avez-vous un fichier contenant une description complète ?",
+          inputType: "filePicker", // input type
+          isBranch: false, // is the value linked to a name branch
+          value: [], // value
+        },
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Multichoice :
+
+```javascript
+        {
+          name: "services",  // attribute name of the input
+          question: "Services Altyor *", // Question title
+          description: "Quels services proposés par Altyor vous intéressent ?", // Question description
+          inputType: "multiChoice", // input type
+          multiChoice: [ // list of possible choice. Array of string only
+            "Réflexion stratégique",
+            "Rédaction de cahier des charges",
+            "Etude de faisabilité/architecture",
+            "Design/conception produit",
+            "Etude mécanique",
+            "Etude électronique",
+            "Prototypage",
+            "Industrialisation + Production",
+            "Certification",
+          ],
+          value: [ // is the choice checked or not (by index ; exemple, if the third boolean element is true, the third choice of multichoice list is checked). Value array should have the same size as multiChoice array. Value array is an array of bolean only.
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+          ],
+          isBranch: true, // is some branches linked to the value of branchRefValue
+          branchRef: [ // list of possible branchRef value linked to multiChoice value by index (ex : if value[2] is true, branRef[2] is targeted)
+            "reflexionStrategique",
+            "redactionDeCahierDesCharges",
+            "detail",
+            "detail",
+            "detail",
+            "detail",
+            "detail",
+            "detail",
+            "detail",
+          ],
+          branchRefValue: [], // list of branch by name who have to be displayed. if value[2] is true, branRef[2] is listed)
+        },
+```
