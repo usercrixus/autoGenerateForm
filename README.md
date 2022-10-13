@@ -24,7 +24,7 @@ List of form element like text area, input text, radio, check box etc
 form: [];
 ```
 
-In the form array, we will insert element that we can call "branch" or "page". Our form is custitued from a series of page. Every page have a "next" button expect the last one who have a "send" button".\
+In the form array, we will insert element that we can call "branch" or "page". Our form is custitued from a series of page. Every page have a "next" button except the last one who have a "send" button".\
 Branch look like :
 
 ```javascript
