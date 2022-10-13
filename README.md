@@ -4,9 +4,9 @@ To create your own personnal form you have to create your own personnal data str
 \
 The data structure is located in src/dataStructure.tsx file. \
 \
-Let's look line by line how it is construct.\
+Let's look line by line how it is construct :\
 \
-The server endpoint where the json response of the form will be send\
+The server endpoint where the json response of the form will be send
 
 ```javascript
 endPoint: "http://dnsdatacheck.pueym9p8fgvu05gp.b.requestbin.net";
@@ -24,7 +24,7 @@ List of form element like text area, input text, radio, check box etc
 form: [];
 ```
 
-In the form array, we will insert element that we can call "branch" or "page". Our form in custitued from a series of page. Every page have a "next" button, expect the last one who have a "send" button".\
+In the form array, we will insert element that we can call "branch" or "page". Our form is custitued from a series of page. Every page have a "next" button expect the last one who have a "send" button".\
 Branch look like :
 
 ```javascript
