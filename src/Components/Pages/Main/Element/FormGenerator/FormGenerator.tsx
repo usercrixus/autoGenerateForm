@@ -21,11 +21,12 @@ export default class FormGenerator
       isToolTipDisplayed: boolean;
     }
   >
-  implements ProviderInterface
-{
+  implements ProviderInterface {
   sections: string[] = [];
   isTriggerScrollTop: boolean = false;
   isNextButtonEnable: boolean = false;
+  resizeObserver: ResizeObserver | null = null;
+  contentContainer: HTMLElement | null = null;
 
   toolTipsNext: ReactElement = (
     <div
@@ -54,8 +55,30 @@ export default class FormGenerator
     this.generateSectionTab();
     BasicProvider.setSections(this.sections);
     BasicProvider.setSectionsRank(this.state.pagination);
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.handleScrollbarChange();
+    });
+
+    this.contentContainer = document.getElementById('root')!;
+    if (this.contentContainer) {
+      this.resizeObserver.observe(this.contentContainer);
+    }
   }
-  componentWillUnmount() {}
+
+  handleScrollbarChange() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.resizeObserver && this.contentContainer) {
+      this.resizeObserver.unobserve(this.contentContainer);
+    }
+  }
 
   rerender() {
     this.forceUpdate();
@@ -67,10 +90,6 @@ export default class FormGenerator
     snapshot?: any
   ): void {
     if (this.isTriggerScrollTop) {
-      setTimeout(() => {
-        // uggly solution to avoid bug. window.scrollTo() wouldn't fire without setTimeout
-        window.scrollTo(0, 0);
-      });
       this.isTriggerScrollTop = false;
       this.setState({ isToolTipDisplayed: false });
     }
